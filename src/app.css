@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Roboto", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+html,
+body {
+  @apply bg-white;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+#root {
+  width: 100%;
+  height: calc(100vh - 90px);
+}
+
+header nav > ul > li > a {
+  @apply text-white;
+  @apply font-medium;
+  @apply text-2xl;
+}
+
+aside nav > ul > li > a {
+  @apply bg-white;
+  @apply p-2;
+  @apply flex;
+  @apply items-center;
+  @apply justify-center;
+  @apply h-max;
+  @apply w-max;
+  @apply rounded-lg;
+}
+
+aside nav > ul > li {
+  @apply mb-2;
+}
