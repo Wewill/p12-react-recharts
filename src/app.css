@@ -12,11 +12,13 @@ body {
   grid-template-rows: auto 1fr auto;
 }
 
+/* Use all the available space */
 #root {
   width: 100%;
   height: calc(100vh - 90px);
 }
 
+/* Define here recurrent styles */
 header nav > ul > li > a {
   @apply text-white;
   @apply font-medium;
