@@ -3,12 +3,11 @@ import React, { useContext } from "react";
 import UserContext from "../../router/context";
 import { useQuery } from "@tanstack/react-query";
 import queryKeys from "../../services/queryKeys";
-import { fetchActivity } from "../../services/api";
+import { fetchSessions } from "../../services/api";
 
 import {
-  BarChart,
-  Bar,
-  Rectangle,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -17,13 +16,13 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export default function Activity(): React.ReactNode {
+export default function Session(): React.ReactNode {
   const { params } = useContext(UserContext);
   const { userId } = params;
 
   const { isPending, error, data, isFetching } = useQuery({
-    queryKey: [queryKeys.ACTIVITY, userId],
-    queryFn: () => fetchActivity(userId),
+    queryKey: [queryKeys.SESSION, userId],
+    queryFn: () => fetchSessions(userId),
     staleTime: 5 * 60 * 1000, // 5 min
   });
 
@@ -32,16 +31,14 @@ export default function Activity(): React.ReactNode {
   if (error) return "An error has occurred: " + error.message;
 
   // Format the data for the chart
-  interface ActivityItem {
+  interface SessionItem {
     name: string;
     pv: number;
-    uv: number;
   }
-  const formattedData: ActivityItem[] = Object.keys(data.data.sessions).map(
+  const formattedData: SessionItem[] = Object.keys(data.data.sessions).map(
     (key: string) => ({
       name: data.data.sessions[Number(key)]?.day,
-      pv: data.data.sessions[Number(key)]?.kilogram,
-      uv: data.data.sessions[Number(key)]?.calories,
+      pv: data.data.sessions[Number(key)]?.sessionLength,
     })
   );
 
@@ -59,7 +56,7 @@ export default function Activity(): React.ReactNode {
         style={{ width: "100%", height: 300 }}
       >
         <ResponsiveContainer>
-          <BarChart
+          <LineChart
             width={500}
             height={300}
             data={formattedData}
@@ -75,17 +72,13 @@ export default function Activity(): React.ReactNode {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar
+            <Line
+              type="monotone"
               dataKey="pv"
-              fill="#8884d8"
-              activeBar={<Rectangle fill="pink" stroke="blue" />}
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
             />
-            <Bar
-              dataKey="uv"
-              fill="#82ca9d"
-              activeBar={<Rectangle fill="gold" stroke="purple" />}
-            />
-          </BarChart>
+          </LineChart>
         </ResponsiveContainer>
       </div>
     </>

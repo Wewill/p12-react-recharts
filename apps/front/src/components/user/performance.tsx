@@ -33,7 +33,7 @@ export default function Performance(): React.ReactNode {
   const minValue: number = 0;
   const maxValue: number = 250;
 
-  // Format the data for the radar chart
+  // Format the data for the chart
   interface RadarItem {
     subject: string;
     grade: number;
@@ -47,8 +47,8 @@ export default function Performance(): React.ReactNode {
     })
   );
 
-  console.log(data);
-  console.log(formattedData);
+  // console.log(data);
+  // console.log(formattedData);
 
   return (
     <>
