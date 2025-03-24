@@ -5,6 +5,12 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+:root {
+  --bg-color: #282d30;
+  --color-primary: #e60000;
+  --color-secondary: #ff9800;
+}
+
 html,
 body {
   @apply bg-white;
@@ -26,14 +32,11 @@ header nav > ul > li > a {
 }
 
 aside nav > ul > li > a {
-  @apply bg-white;
-  @apply p-2;
   @apply flex;
   @apply items-center;
   @apply justify-center;
   @apply h-max;
   @apply w-max;
-  @apply rounded-lg;
 }
 
 aside nav > ul > li {
