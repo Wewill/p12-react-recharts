@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import queryKeys from "../../services/queryKeys";
 import { fetchUser } from "../../services/api";
 
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 export default function Activity(): React.ReactNode {
   const { params } = useContext(UserContext);

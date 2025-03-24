@@ -8,12 +8,10 @@ import { fetchActivity } from "../../services/api";
 import {
   BarChart,
   Bar,
-  Rectangle,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 
@@ -37,13 +35,11 @@ export default function Activity(): React.ReactNode {
     pv: number;
     uv: number;
   }
-  const formattedData: ActivityItem[] = data.data.sessions.map(
-    (session: any) => ({
-      name: new Date(session.day).getDate().toString(),
-      pv: session.kilogram,
-      uv: session.calories,
-    })
-  );
+  const formattedData: ActivityItem[] = data.data.sessions.map((session) => ({
+    name: new Date(session.day).getDate().toString(),
+    pv: session.kilogram,
+    uv: session.calories,
+  }));
 
   // console.log(data);
   // console.log(formattedData);
@@ -112,29 +108,30 @@ export default function Activity(): React.ReactNode {
   );
 }
 
-function BarsCustomTooltip(active: any): React.ReactNode {
-  let kilogramData = null;
-  let caloriesData = null;
+import { TooltipProps } from "recharts";
+// for recharts v2.1 and above
+import {
+  ValueType,
+  NameType,
+} from "recharts/types/component/DefaultTooltipContent";
 
-  for (const payloadValue of active.payload) {
-    console.log(payloadValue);
-    kilogramData = payloadValue.payload.pv;
-    caloriesData = payloadValue.payload.uv;
+const BarsCustomTooltip = ({
+  active,
+  payload,
+}: TooltipProps<ValueType, NameType>) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="--bg-white bg-main p-3 rounded-md shadow-md text-xs">
+        <p className="--text-stone-500 text-white font-semibold">
+          {`${payload[0].payload.pv} kg`}
+        </p>
+        <p className="--text-stone-500 text-white">
+          {" "}
+          {`${payload[0].payload.uv} Kcal`}
+        </p>
+      </div>
+    );
   }
 
-  const payloadIsEmpty: boolean = !active.payload.length;
-
-  if (payloadIsEmpty) {
-    return null;
-  }
-
-  return (
-    <div className="--bg-white bg-main p-3 rounded-md shadow-md text-xs">
-      <p className="--text-stone-500 text-white font-semibold">
-        {" "}
-        {`${kilogramData} kg`}
-      </p>
-      <p className="--text-stone-500 text-white"> {`${caloriesData} Kcal`}</p>
-    </div>
-  );
-}
+  return null;
+};

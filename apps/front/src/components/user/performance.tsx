@@ -10,7 +10,6 @@ import {
   RadarChart,
   PolarGrid,
   PolarAngleAxis,
-  PolarRadiusAxis,
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
@@ -30,8 +29,8 @@ export default function Performance(): React.ReactNode {
   if (error) return "An error has occurred: " + error.message;
 
   // Init chart
-  const minValue: number = 0;
-  const maxValue: number = 250;
+  // const minValue: number = 0;
+  // const maxValue: number = 250;
 
   // Format the data for the chart
   interface RadarItem {
@@ -39,9 +38,19 @@ export default function Performance(): React.ReactNode {
     grade: number;
     fullMark: number;
   }
+
+  const kindLabels: { [key: number]: string } = {
+    1: "Cardio",
+    2: "Energie",
+    3: "Endurance",
+    4: "Force",
+    5: "Vitesse",
+    6: "Intensité",
+  };
+
   const formattedData: RadarItem[] = Object.keys(data.data.data).map(
     (key: string) => ({
-      subject: data.data.kind[data.data.data[Number(key)]?.kind] as string,
+      subject: kindLabels[data.data.data[Number(key)]?.kind],
       grade: data.data.data[Number(key)]?.value,
       fullMark: 250,
     })
@@ -87,7 +96,7 @@ export default function Performance(): React.ReactNode {
             />
             <Tooltip
               animationEasing="ease-out"
-              content={<RadarCustomTooltip payload={formattedData} />}
+              content={<RadarCustomTooltip />}
               offset={55}
               wrapperStyle={{ outline: "none" }}
             />
@@ -98,19 +107,19 @@ export default function Performance(): React.ReactNode {
   );
 }
 
-function RadarCustomTooltip({
-  payload,
-  active,
-}: {
-  payload: any;
-  active: boolean;
-}): React.ReactNode | null {
-  if (!active || !payload || payload.length === 0) {
-    return null;
-  }
+import { TooltipProps } from "recharts";
+// for recharts v2.1 and above
+import {
+  ValueType,
+  NameType,
+} from "recharts/types/component/DefaultTooltipContent";
 
-  return (
-    <>
+const RadarCustomTooltip = ({
+  active,
+  payload,
+}: TooltipProps<ValueType, NameType>) => {
+  if (active && payload && payload.length) {
+    return (
       <div className="bg-white p-3 rounded-md shadow-md text-xs">
         <p className="font-semibold">
           {`Type de performance: ${payload[0].payload.subject}`}
@@ -119,6 +128,8 @@ function RadarCustomTooltip({
           {`Degré de performance: ${payload[0].payload.grade}/250`}
         </p>
       </div>
-    </>
-  );
-}
+    );
+  }
+
+  return null;
+};

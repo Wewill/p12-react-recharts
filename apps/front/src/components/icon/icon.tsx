@@ -1,5 +1,3 @@
-import React from "react";
-
 interface IconProps {
   iconType: string;
   variant?: "warning" | "info" | "notice" | "danger" | undefined;

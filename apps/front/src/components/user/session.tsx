@@ -6,12 +6,8 @@ import queryKeys from "../../services/queryKeys";
 import { fetchSessions } from "../../services/api";
 
 import {
-  LineChart,
   Area,
   AreaChart,
-  Line,
-  CartesianGrid,
-  Legend,
   Tooltip,
   XAxis,
   YAxis,
@@ -104,7 +100,7 @@ export default function Session(): React.ReactNode {
 
             <Tooltip
               animationEasing="ease-out"
-              content={<LineCustomTooltip payload={formattedData} />}
+              content={<LineCustomTooltip />}
               wrapperStyle={{ outline: "none" }}
             />
           </AreaChart>
@@ -114,20 +110,24 @@ export default function Session(): React.ReactNode {
   );
 }
 
-function LineCustomTooltip(active: any): React.ReactNode | null {
-  if (!active.payload) {
-    return null;
+import { TooltipProps } from "recharts";
+// for recharts v2.1 and above
+import {
+  ValueType,
+  NameType,
+} from "recharts/types/component/DefaultTooltipContent";
+
+const LineCustomTooltip = ({
+  active,
+  payload,
+}: TooltipProps<ValueType, NameType>) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white p-3 rounded-md shadow-md text-xs">
+        <p className="font-semibold"> {`${payload[0].value} min`}</p>
+      </div>
+    );
   }
 
-  let activityData = null;
-
-  for (const payloadValue of active?.payload) {
-    activityData = payloadValue.payload.pv;
-  }
-
-  return (
-    <div className="bg-white p-3 rounded-md shadow-md text-xs">
-      <p className="font-semibold"> {`${activityData} min`}</p>
-    </div>
-  );
-}
+  return null;
+};

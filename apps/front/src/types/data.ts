@@ -40,14 +40,7 @@ export type sessionsData = {
 export type performanceData = {
   data: {
     userId: number;
-    kind: {
-      "1": "cardio";
-      "2": "energy";
-      "3": "endurance";
-      "4": "strength";
-      "5": "speed";
-      "6": "intensity";
-    };
+    kind?: [key: number];
     data: {
       value: number;
       kind: number;
