@@ -81,7 +81,7 @@ function App() {
         <UserContext.Provider value={state}>
           <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools />
-            <main className="text-black my-14 mx-26 w-full">
+            <main className=" my-14 mx-26 w-full">
               <section id="dashboard">
                 <hgroup>
                   <h1 className="font-semibold mb-4">
@@ -95,12 +95,12 @@ function App() {
               </section>
               <section
                 id="data"
-                className="flex flex-row justify-between w-full mt-4 gap-2"
+                className="flex flex-row justify-between w-full mt-4 gap-4"
               >
                 <section id="activity" className="flex-2/3">
                   <Activity />
 
-                  <div className="flex flex-row justify-between gap-2 mt-2">
+                  <div className="flex flex-row justify-between gap-4 mt-4">
                     <div className="flex-1/3">
                       <Session />
                     </div>

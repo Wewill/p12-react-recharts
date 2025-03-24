@@ -37,11 +37,11 @@ export default function Activity(): React.ReactNode {
     pv: number;
     uv: number;
   }
-  const formattedData: ActivityItem[] = Object.keys(data.data.sessions).map(
-    (key: string) => ({
-      name: data.data.sessions[Number(key)]?.day,
-      pv: data.data.sessions[Number(key)]?.kilogram,
-      uv: data.data.sessions[Number(key)]?.calories,
+  const formattedData: ActivityItem[] = data.data.sessions.map(
+    (session: any) => ({
+      name: new Date(session.day).getDate().toString(),
+      pv: session.kilogram,
+      uv: session.calories,
     })
   );
 
@@ -53,41 +53,88 @@ export default function Activity(): React.ReactNode {
       {isFetching ? "..." : ""}
       {isPending ? "isPending..." : ""}
       {error ? "Error : " + error : ""}
-
       <div
-        className="rounded-md bg-gray-800"
-        style={{ width: "100%", height: 300 }}
+        className="rounded-md bg-stone-50 relative"
+        style={{ width: "100%", height: 340 }}
       >
+        <div className="absolute top-0 left-0 p-6 font-semibold flex justify-between w-full">
+          <span className="flex-1">Activité quotidienne</span>
+          <span className="text-stone-500">
+            <span>•</span> Poids (kg)
+          </span>
+          <span className="text-stone-500">
+            <span className="text-red-500">•</span> Calories brûlées (kCal)
+          </span>
+        </div>
+
         <ResponsiveContainer>
           <BarChart
             width={500}
             height={300}
             data={formattedData}
             margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
+              top: 60,
+              right: 10,
+              left: 10,
+              bottom: 10,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
+            <CartesianGrid
+              strokeDasharray="2 2"
+              horizontal={true}
+              vertical={false}
+            />
+            <XAxis dataKey="name" tickLine={false} axisLine={false} />
+            <YAxis orientation="right" tickLine={false} axisLine={false} />
+            <Tooltip
+              animationEasing="ease-out"
+              content={<BarsCustomTooltip payload={formattedData} />}
+              offset={40}
+              wrapperStyle={{ outline: "none" }}
+            />
+
             <Bar
               dataKey="pv"
-              fill="#8884d8"
-              activeBar={<Rectangle fill="pink" stroke="blue" />}
+              fill="var(--bg-color)"
+              radius={[10, 10, 0, 0]}
+              barSize={10}
             />
             <Bar
               dataKey="uv"
-              fill="#82ca9d"
-              activeBar={<Rectangle fill="gold" stroke="purple" />}
+              fill="var(--color-primary)"
+              radius={[10, 10, 0, 0]}
+              barSize={10}
             />
           </BarChart>
         </ResponsiveContainer>
       </div>
     </>
+  );
+}
+
+function BarsCustomTooltip(active: any): React.ReactNode {
+  let kilogramData = null;
+  let caloriesData = null;
+
+  for (const payloadValue of active.payload) {
+    console.log(payloadValue);
+    kilogramData = payloadValue.payload.pv;
+    caloriesData = payloadValue.payload.uv;
+  }
+
+  const payloadIsEmpty: boolean = !active.payload.length;
+
+  if (payloadIsEmpty) {
+    return null;
+  }
+
+  return (
+    <div className="--bg-white bg-main p-3 rounded-md shadow-md text-xs">
+      <p className="--text-stone-500 text-white font-semibold">
+        {" "}
+        {`${kilogramData} kg`}
+      </p>
+      <p className="--text-stone-500 text-white"> {`${caloriesData} Kcal`}</p>
+    </div>
   );
 }

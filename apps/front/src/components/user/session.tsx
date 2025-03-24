@@ -7,12 +7,14 @@ import { fetchSessions } from "../../services/api";
 
 import {
   LineChart,
+  Area,
+  AreaChart,
   Line,
+  CartesianGrid,
+  Legend,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 
@@ -35,9 +37,15 @@ export default function Session(): React.ReactNode {
     name: string;
     pv: number;
   }
+
+  const getDayName = (dayNumber: number): string => {
+    const days = ["S", "M", "T", "W", "T", "F", "S"];
+    return days[dayNumber];
+  };
+
   const formattedData: SessionItem[] = Object.keys(data.data.sessions).map(
     (key: string) => ({
-      name: data.data.sessions[Number(key)]?.day,
+      name: getDayName(data.data.sessions[Number(key)]?.day - 1),
       pv: data.data.sessions[Number(key)]?.sessionLength,
     })
   );
@@ -52,35 +60,74 @@ export default function Session(): React.ReactNode {
       {error ? "Error : " + error : ""}
 
       <div
-        className="rounded-md bg-gray-800"
+        className="rounded-md bg-main relative"
         style={{ width: "100%", height: 300 }}
       >
+        <div className="absolute top-0 left-0 p-6 font-semibold text-white opacity-80">
+          Durée moyenne des sessions
+        </div>
         <ResponsiveContainer>
-          <LineChart
-            width={500}
-            height={300}
+          <AreaChart
             data={formattedData}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
+            margin={{ top: 60, right: 20, left: 20, bottom: 5 }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line
+            <defs>
+              <linearGradient id="colorMin" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor="var(--color-secondary)"
+                  stopOpacity={0.8}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="var(--color-primary)"
+                  stopOpacity={0}
+                />
+              </linearGradient>
+            </defs>
+            <XAxis
+              dataKey="pv"
+              axisLine={false}
+              tickLine={false}
+              stroke="#fff"
+              // padding={{ left: 0, right: 0 }}
+            />
+            <YAxis dataKey="pv" hide />
+            <Area
               type="monotone"
               dataKey="pv"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
+              stroke="#fff"
+              strokeWidth={2}
+              fillOpacity={1}
+              fill="url(#colorMin)"
             />
-          </LineChart>
+
+            <Tooltip
+              animationEasing="ease-out"
+              content={<LineCustomTooltip payload={formattedData} />}
+              wrapperStyle={{ outline: "none" }}
+            />
+          </AreaChart>
         </ResponsiveContainer>
       </div>
     </>
+  );
+}
+
+function LineCustomTooltip(active: any): React.ReactNode | null {
+  if (!active.payload) {
+    return null;
+  }
+
+  let activityData = null;
+
+  for (const payloadValue of active?.payload) {
+    activityData = payloadValue.payload.pv;
+  }
+
+  return (
+    <div className="bg-white p-3 rounded-md shadow-md text-xs">
+      <p className="font-semibold"> {`${activityData} min`}</p>
+    </div>
   );
 }

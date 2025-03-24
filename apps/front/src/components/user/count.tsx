@@ -50,7 +50,7 @@ const Count = ({ type, variant }: CountProps) => {
 
   return (
     <>
-      <div className="bg-stone-50 p-10 rounded-md mb-12">
+      <div className="bg-stone-50 p-10 rounded-md mb-4">
         <div className="flex items-center gap-8">
           <Icon
             iconType={keyDataTypes[type].icon}
@@ -65,7 +65,9 @@ const Count = ({ type, variant }: CountProps) => {
               {keyDataTypes[type].suffix}
               <span>{isFetching ? "..." : ""}</span>
             </h4>
-            <p className="text-stone-500">{keyDataTypes[type].label}</p>
+            <p className="text-stone-500 font-medium">
+              {keyDataTypes[type].label}
+            </p>
           </div>
         </div>
       </div>

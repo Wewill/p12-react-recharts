@@ -57,27 +57,33 @@ export default function Performance(): React.ReactNode {
       {error ? "Error : " + error : ""}
 
       <div
-        className="rounded-md bg-gray-800"
+        className="rounded-md bg-content relative p-2"
         style={{ width: "100%", height: 300 }}
       >
+        <div className="absolute top-0 left-0 p-6 font-semibold text-white hidden">
+          Performance
+        </div>
         <ResponsiveContainer>
-          <RadarChart
-            outerRadius={90}
-            width={250}
-            height={250}
-            data={formattedData}
-          >
-            <PolarGrid stroke="var(--bg-color)" />
-            <PolarAngleAxis dataKey="subject" />
-            <PolarRadiusAxis
+          <RadarChart outerRadius={80} data={formattedData}>
+            <PolarGrid
+              gridType="polygon"
+              radialLines={false}
+              polarRadius={[0, 16, 32, 48, 64, 80]}
+              stroke="white"
+            />
+            <PolarAngleAxis
+              dataKey="subject"
+              tick={{ fill: "white", fontSize: 15 }}
+            />
+            {/* <PolarRadiusAxis
               angle={30}
               domain={[minValue, maxValue]}
-              stroke="var(--bg-color)"
-            />
+              stroke="green"
+            /> */}
             <Radar
               dataKey="grade"
               fill="var(--color-primary)"
-              fillOpacity={0.7}
+              fillOpacity={0.8}
             />
             <Tooltip
               animationEasing="ease-out"
@@ -105,11 +111,11 @@ function RadarCustomTooltip({
 
   return (
     <>
-      <div className="tool-tip__radar-chart">
-        <p className="tool-tip__radar-chart-text">
+      <div className="bg-white p-3 rounded-md shadow-md text-xs">
+        <p className="font-semibold">
           {`Type de performance: ${payload[0].payload.subject}`}
         </p>
-        <p className="tool-tip__radar-chart-text">
+        <p className="">
           {`Degré de performance: ${payload[0].payload.grade}/250`}
         </p>
       </div>

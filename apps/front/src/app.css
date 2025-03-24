@@ -3,17 +3,20 @@
 @theme {
   --font-sans: "Roboto", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --color-main: #e60000;
+  --color-content: #282d30;
 }
 
 :root {
   --bg-color: #282d30;
   --color-primary: #e60000;
-  --color-secondary: #ff9800;
+  --color-secondary: #fb2a2a;
 }
 
 html,
 body {
   @apply bg-white;
+  color: var(--bg-color);
   display: grid;
   grid-template-rows: auto 1fr auto;
 }
