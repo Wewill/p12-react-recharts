@@ -11,6 +11,7 @@ import Icon from "./components/icon/icon";
 import Name from "./components/user/name";
 import Age from "./components/user/age";
 import Count from "./components/user/count";
+import Performance from "./components/user/performance";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -91,10 +92,22 @@ function App() {
               </section>
               <section
                 id="data"
-                className="flex flex-row justify-between w-full mt-4"
+                className="flex flex-row justify-between w-full mt-4 gap-2"
               >
                 <section id="activity" className="flex-2/3">
-                  <p>Activité quotidienne</p>
+                  <Performance />
+
+                  <div className="flex flex-row justify-between gap-2 mt-2">
+                    <div className="flex-1/3">
+                      <Performance />
+                    </div>
+                    <div className="flex-1/3">
+                      <Performance />
+                    </div>
+                    <div className="flex-1/3">
+                      <Performance />
+                    </div>
+                  </div>
                 </section>
                 <section id="reports" className="flex-1/3">
                   <Count type="calorieCount" variant="warning" />

@@ -15,18 +15,22 @@ const keyDataTypes = {
   calorieCount: {
     label: "Calories",
     suffix: "kCal",
+    icon: "calorie",
   },
   proteinCount: {
     label: "Protéines",
     suffix: "g",
+    icon: "protein",
   },
   carbohydrateCount: {
     label: "Glucides",
     suffix: "g",
+    icon: "carbohydrate",
   },
   lipidCount: {
     label: "Lipides",
     suffix: "g",
+    icon: "lipid",
   },
 };
 
@@ -46,17 +50,20 @@ const Count = ({ type, variant }: CountProps) => {
 
   return (
     <>
-      <div className="bg-stone-100 p-8 rounded-md mb-8">
-        <span className={variantColors[variant]?.textColor}>
-          {data.data.keyData[type]}
-          <span>{isFetching ? "..." : ""}</span>
-        </span>
-        <div className="flex items-center gap-4">
-          <Icon />
+      <div className="bg-stone-50 p-10 rounded-md mb-12">
+        <div className="flex items-center gap-8">
+          <Icon
+            iconType={keyDataTypes[type].icon}
+            variant={variant}
+            size={20}
+            elClass="p-6"
+          />
+
           <div>
             <h4 className="font-bold text-2xl">
               {data.data.keyData[type]}
               {keyDataTypes[type].suffix}
+              <span>{isFetching ? "..." : ""}</span>
             </h4>
             <p className="text-stone-500">{keyDataTypes[type].label}</p>
           </div>
