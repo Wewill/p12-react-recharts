@@ -24,7 +24,7 @@ export default function Session(): React.ReactNode {
     staleTime: 5 * 60 * 1000, // 5 min
   });
 
-  if (isPending) return "Loading...";
+  if (isPending) return "...";
 
   if (error) return "An error has occurred: " + error.message;
 
