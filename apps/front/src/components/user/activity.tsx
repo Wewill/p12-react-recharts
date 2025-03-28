@@ -40,11 +40,15 @@ export default function Activity(): React.ReactNode {
       <div className="rounded-md bg-stone-50 relative h-[275px] xl:h-[360px]">
         <div className="absolute top-0 left-0 p-6 font-semibold flex justify-between w-full">
           <span className="flex-1">Activité quotidienne</span>
-          <span className="text-stone-500">
-            <span>•</span> Poids (kg)
+          <span className="text-stone-500 me-2">
+            <span className="text-[40px] leading-0 top-[6px] relative">•</span>{" "}
+            Poids (kg)
           </span>
           <span className="text-stone-500">
-            <span className="text-red-500">•</span> Calories brûlées (kCal)
+            <span className="text-red-500 text-[40px] leading-0 top-[6px] relative">
+              •
+            </span>
+            Calories brûlées (kCal)
           </span>
         </div>
 
