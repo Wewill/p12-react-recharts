@@ -50,8 +50,8 @@ const Count = ({ type, variant }: CountProps) => {
 
   return (
     <>
-      <div className="bg-stone-50 p-10 rounded-md mb-4">
-        <div className="flex items-center gap-8">
+      <div className="bg-stone-50 p-8 xl:p-10 rounded-md mb-2 xl:mb-4">
+        <div className="flex items-center gap-4 xl:gap-8">
           <Icon
             iconType={keyDataTypes[type].icon}
             variant={variant}

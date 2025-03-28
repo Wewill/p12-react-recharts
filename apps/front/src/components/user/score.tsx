@@ -21,33 +21,28 @@ export default function Activity(): React.ReactNode {
 
   if (error) return "An error has occurred: " + error.message;
 
-  console.log(data);
-
   return (
     <>
       {isFetching ? "..." : ""}
       {isPending ? "isPending..." : ""}
       {error ? "Error : " + error : ""}
 
-      <div
-        className="bg-stone-50 p-2 rounded-md relative"
-        style={{ width: "100%", height: 300 }}
-      >
+      <div className="bg-stone-50 p-2 rounded-md relative h-[275px] xl:h-[300px]">
         <div className="absolute top-0 left-0 p-6 font-semibold">Score</div>
         <ResponsiveContainer>
-          <PieChart width={400} height={400}>
+          <PieChart>
             <Pie
               dataKey="value"
-              startAngle={200}
-              endAngle={-20}
               data={[
                 { value: data.data.todayScore },
                 { value: 1 - data.data.todayScore, color: "#fff" },
               ]}
               cx="50%"
               cy="50%"
-              innerRadius={90}
-              outerRadius={100}
+              innerRadius="80%"
+              outerRadius="90%"
+              startAngle={210}
+              endAngle={-30}
               stroke="none"
               cornerRadius={10}
             >

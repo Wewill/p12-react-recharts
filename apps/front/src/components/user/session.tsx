@@ -28,26 +28,8 @@ export default function Session(): React.ReactNode {
 
   if (error) return "An error has occurred: " + error.message;
 
-  // Format the data for the chart
-  interface SessionItem {
-    name: string;
-    pv: number;
-  }
-
-  const getDayName = (dayNumber: number): string => {
-    const days = ["S", "M", "T", "W", "T", "F", "S"];
-    return days[dayNumber];
-  };
-
-  const formattedData: SessionItem[] = Object.keys(data.data.sessions).map(
-    (key: string) => ({
-      name: getDayName(data.data.sessions[Number(key)]?.day - 1),
-      pv: data.data.sessions[Number(key)]?.sessionLength,
-    })
-  );
-
-  // console.log(data);
-  // console.log(formattedData);
+  // Format data for recharts
+  const formattedData = Formatter.formatSessions(data);
 
   return (
     <>
@@ -55,10 +37,7 @@ export default function Session(): React.ReactNode {
       {isPending ? "isPending..." : ""}
       {error ? "Error : " + error : ""}
 
-      <div
-        className="rounded-md bg-main relative"
-        style={{ width: "100%", height: 300 }}
-      >
+      <div className="rounded-md bg-main relative h-[275px] xl:h-[300px]">
         <div className="absolute top-0 left-0 p-6 font-semibold text-white opacity-80">
           Durée moyenne des sessions
         </div>
@@ -82,7 +61,7 @@ export default function Session(): React.ReactNode {
               </linearGradient>
             </defs>
             <XAxis
-              dataKey="pv"
+              dataKey="name"
               axisLine={false}
               tickLine={false}
               stroke="#fff"
@@ -116,6 +95,7 @@ import {
   ValueType,
   NameType,
 } from "recharts/types/component/DefaultTooltipContent";
+import Formatter from "../../services/formatter";
 
 const LineCustomTooltip = ({
   active,

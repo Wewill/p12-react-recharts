@@ -28,36 +28,8 @@ export default function Performance(): React.ReactNode {
 
   if (error) return "An error has occurred: " + error.message;
 
-  // Init chart
-  // const minValue: number = 0;
-  // const maxValue: number = 250;
-
-  // Format the data for the chart
-  interface RadarItem {
-    subject: string;
-    grade: number;
-    fullMark: number;
-  }
-
-  const kindLabels: { [key: number]: string } = {
-    1: "Cardio",
-    2: "Energie",
-    3: "Endurance",
-    4: "Force",
-    5: "Vitesse",
-    6: "Intensité",
-  };
-
-  const formattedData: RadarItem[] = Object.keys(data.data.data).map(
-    (key: string) => ({
-      subject: kindLabels[data.data.data[Number(key)]?.kind],
-      grade: data.data.data[Number(key)]?.value,
-      fullMark: 250,
-    })
-  );
-
-  // console.log(data);
-  // console.log(formattedData);
+  // Format data for recharts
+  const formattedData = Formatter.formatPerformance(data);
 
   return (
     <>
@@ -65,15 +37,12 @@ export default function Performance(): React.ReactNode {
       {isPending ? "isPending..." : ""}
       {error ? "Error : " + error : ""}
 
-      <div
-        className="rounded-md bg-content relative p-2"
-        style={{ width: "100%", height: 300 }}
-      >
+      <div className="rounded-md bg-content relative p-2 h-[275px] xl:h-[300px]">
         <div className="absolute top-0 left-0 p-6 font-semibold text-white hidden">
           Performance
         </div>
         <ResponsiveContainer>
-          <RadarChart outerRadius={80} data={formattedData}>
+          <RadarChart outerRadius="80%" data={formattedData}>
             <PolarGrid
               gridType="polygon"
               radialLines={false}
@@ -113,6 +82,7 @@ import {
   ValueType,
   NameType,
 } from "recharts/types/component/DefaultTooltipContent";
+import Formatter from "../../services/formatter";
 
 const RadarCustomTooltip = ({
   active,

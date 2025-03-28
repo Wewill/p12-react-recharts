@@ -9,7 +9,6 @@ import appLogo from "/logo.svg";
 
 import Icon from "./components/icon/icon";
 import Name from "./components/user/name";
-import Age from "./components/user/age";
 import Count from "./components/user/count";
 import Activity from "./components/user/activity";
 import Session from "./components/user/session";
@@ -44,7 +43,7 @@ function App() {
       </header>
 
       <div className="flex h-full">
-        <aside className="bg-black w-[117px] flex flex-col items-center justify-between p-8">
+        <aside className="bg-black w-[82px] xl:w-[117px] flex flex-col items-center justify-between p-4 xl:p-8">
           <div></div>
           <nav>
             <ul>
@@ -81,12 +80,11 @@ function App() {
         <UserContext.Provider value={state}>
           <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools />
-            <main className=" my-14 mx-26 w-full">
+            <main className="m-2 xl:my-14 xl:mx-26 w-full">
               <section id="dashboard">
-                <hgroup>
+                <hgroup className="flex flex-row xl:flex-col gap-0 justify-between items-center xl:justify-start xl:items-start">
                   <h1 className="font-semibold mb-4">
                     Bonjour <Name />
-                    <Age />
                   </h1>
                   <p className="text-lg">
                     Félicitation ! Vous avez explosé vos objectifs hier 👏
@@ -95,12 +93,12 @@ function App() {
               </section>
               <section
                 id="data"
-                className="flex flex-row justify-between w-full mt-4 gap-4"
+                className="flex flex-row justify-between w-full mt-4 gap-2 xl:gap-4"
               >
                 <section id="activity" className="flex-2/3">
                   <Activity />
 
-                  <div className="flex flex-row justify-between gap-4 mt-4">
+                  <div className="flex flex-row justify-between gap-2 xl:gap-4 mt-2 xl:mt-4">
                     <div className="flex-1/3">
                       <Session />
                     </div>

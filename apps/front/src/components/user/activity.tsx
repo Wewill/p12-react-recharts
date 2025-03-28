@@ -32,18 +32,12 @@ export default function Activity(): React.ReactNode {
   // Format data for recharts
   const formattedData = Formatter.formatActivity(data);
 
-  // console.log(data);
-  // console.log(formattedData);
-
   return (
     <>
       {isFetching ? "..." : ""}
       {isPending ? "isPending..." : ""}
       {error ? "Error : " + error : ""}
-      <div
-        className="rounded-md bg-stone-50 relative"
-        style={{ width: "100%", height: 340 }}
-      >
+      <div className="rounded-md bg-stone-50 relative h-[275px] xl:h-[360px]">
         <div className="absolute top-0 left-0 p-6 font-semibold flex justify-between w-full">
           <span className="flex-1">Activité quotidienne</span>
           <span className="text-stone-500">
@@ -60,10 +54,10 @@ export default function Activity(): React.ReactNode {
             height={300}
             data={formattedData}
             margin={{
-              top: 60,
-              right: 10,
-              left: 10,
-              bottom: 10,
+              top: 64,
+              right: 4,
+              left: 25,
+              bottom: 4,
             }}
           >
             <CartesianGrid
