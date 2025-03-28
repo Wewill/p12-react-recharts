@@ -42,16 +42,11 @@ export default function Performance(): React.ReactNode {
           Performance
         </div>
         <ResponsiveContainer>
-          <RadarChart outerRadius="80%" data={formattedData}>
-            <PolarGrid
-              gridType="polygon"
-              radialLines={false}
-              polarRadius={[0, 16, 32, 48, 64, 80]}
-              stroke="white"
-            />
+          <RadarChart outerRadius="60%" data={formattedData}>
+            <PolarGrid gridType="polygon" radialLines={false} stroke="white" />
             <PolarAngleAxis
               dataKey="subject"
-              tick={{ fill: "white", fontSize: 15 }}
+              tick={{ fill: "white", fontSize: 12 }}
             />
             {/* <PolarRadiusAxis
               angle={30}
