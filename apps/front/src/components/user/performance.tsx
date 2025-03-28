@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import UserContext from "../../router/context";
 import { useQuery } from "@tanstack/react-query";
-import queryKeys from "../../services/queryKeys";
+import queryKeys from "../../constants/queryKeys";
 import { fetchPerformance } from "../../services/api";
 
 import {

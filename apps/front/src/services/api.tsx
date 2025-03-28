@@ -1,8 +1,8 @@
 import {
-  userData,
-  performanceData,
-  activityData,
-  sessionsData,
+  UserData,
+  PerformanceData,
+  ActivityData,
+  SessionsData,
 } from "../types/data";
 
 /*
@@ -12,42 +12,40 @@ http://localhost:3000/user/${userId}/average-sessions - retrieves the average se
 http://localhost:3000/user/${userId}/performance - retrieves a user's performance (energy, endurance, etc.).
 */
 
-export const fetchUser = async (userId: number): Promise<userData> => {
-  const response = await fetch("http://localhost:3000/user/" + userId);
+const baseUrl = import.meta.env.VITE_API_URL;
+
+const fetchUser = async (userId: number) => {
+  const response = await fetch(`${baseUrl}/user/` + userId);
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
-  return await response.json();
+  return (await response.json()) as UserData;
 };
 
-export const fetchActivity = async (userId: number): Promise<activityData> => {
+const fetchActivity = async (userId: number) => {
+  const response = await fetch(`${baseUrl}/user/` + userId + "/activity");
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return (await response.json()) as ActivityData;
+};
+
+const fetchSessions = async (userId: number) => {
   const response = await fetch(
-    "http://localhost:3000/user/" + userId + "/activity"
+    `${baseUrl}/user/` + userId + "/average-sessions"
   );
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
-  return await response.json();
+  return (await response.json()) as SessionsData;
 };
 
-export const fetchSessions = async (userId: number): Promise<sessionsData> => {
-  const response = await fetch(
-    "http://localhost:3000/user/" + userId + "/average-sessions"
-  );
+const fetchPerformance = async (userId: number) => {
+  const response = await fetch(`${baseUrl}/user/` + userId + "/performance");
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
-  return await response.json();
+  return (await response.json()) as PerformanceData;
 };
 
-export const fetchPerformance = async (
-  userId: number
-): Promise<performanceData> => {
-  const response = await fetch(
-    "http://localhost:3000/user/" + userId + "/performance"
-  );
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return await response.json();
-};
+export { fetchUser, fetchActivity, fetchSessions, fetchPerformance };

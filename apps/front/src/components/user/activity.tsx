@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import UserContext from "../../router/context";
 import { useQuery } from "@tanstack/react-query";
-import queryKeys from "../../services/queryKeys";
+import queryKeys from "../../constants/queryKeys";
 import { fetchActivity } from "../../services/api";
 
 import {
@@ -29,17 +29,8 @@ export default function Activity(): React.ReactNode {
 
   if (error) return "An error has occurred: " + error.message;
 
-  // Format the data for the chart
-  interface ActivityItem {
-    name: string;
-    pv: number;
-    uv: number;
-  }
-  const formattedData: ActivityItem[] = data.data.sessions.map((session) => ({
-    name: new Date(session.day).getDate().toString(),
-    pv: session.kilogram,
-    uv: session.calories,
-  }));
+  // Format data for recharts
+  const formattedData = Formatter.formatActivity(data);
 
   // console.log(data);
   // console.log(formattedData);
@@ -114,6 +105,7 @@ import {
   ValueType,
   NameType,
 } from "recharts/types/component/DefaultTooltipContent";
+import Formatter from "../../services/formatter";
 
 const BarsCustomTooltip = ({
   active,

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import UserContext from "../../router/context";
 import { useQuery } from "@tanstack/react-query";
-import queryKeys from "../../services/queryKeys";
+import queryKeys from "../../constants/queryKeys";
 import { fetchUser } from "../../services/api";
 
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
@@ -12,7 +12,7 @@ export default function Activity(): React.ReactNode {
   const { userId } = params;
 
   const { isPending, error, data, isFetching } = useQuery({
-    queryKey: [queryKeys.USER, userId],
+    queryKey: queryKeys.USER(userId),
     queryFn: () => fetchUser(userId),
     staleTime: 5 * 60 * 1000, // 5 min
   });
