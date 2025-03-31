@@ -42,7 +42,10 @@ function App() {
         </nav>
       </header>
 
-      <div className="flex h-full">
+      <div
+        className="flex bg-white"
+        style={{ minHeight: "calc(100vh - 90px)" }}
+      >
         <aside className="bg-black w-[82px] xl:w-[117px] flex flex-col items-center justify-between p-4 xl:p-8">
           <div></div>
           <nav>
