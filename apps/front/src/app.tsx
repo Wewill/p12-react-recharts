@@ -75,7 +75,7 @@ function App() {
               </li>
             </ul>
           </nav>
-          <small className="rotate-270 whitespace-nowrap pl-10 w-full">
+          <small className="rotate-270 whitespace-nowrap pl-10 w-full text-gray-200">
             Copyright, SportSee 2020
           </small>
         </aside>
