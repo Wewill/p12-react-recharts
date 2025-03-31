@@ -27,6 +27,11 @@ body {
   height: calc(100vh - 90px);
 }
 
+a:hover,
+a:active {
+  color: var(--color-primary);
+}
+
 /* Define here recurrent styles */
 header nav > ul > li > a {
   @apply text-white;
