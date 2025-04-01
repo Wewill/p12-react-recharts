@@ -10,7 +10,12 @@
 :root {
   --bg-color: #282d30;
   --color-primary: #e60000;
-  --color-secondary: #fb2a2a;
+  --color-secondary: rgb(202, 2, 2);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html,
@@ -19,6 +24,11 @@ body {
   color: var(--bg-color);
   display: grid;
   grid-template-rows: auto 1fr auto;
+  /* margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh; */
 }
 
 /* Use all the available space */
@@ -27,9 +37,18 @@ body {
   height: calc(100vh - 90px);
 }
 
+a {
+  text-decoration: inherit;
+}
+
 a:hover,
 a:active {
   color: var(--color-primary);
+}
+
+h1 {
+  font-size: 3.1em;
+  line-height: 1;
 }
 
 /* Define here recurrent styles */
