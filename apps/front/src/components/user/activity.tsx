@@ -4,6 +4,7 @@ import UserContext from "../../router/context";
 import { useQuery } from "@tanstack/react-query";
 import queryKeys from "../../constants/queryKeys";
 import { fetchActivity } from "../../services/api";
+import Formatter from "../../services/formatter";
 
 import {
   BarChart,
@@ -23,6 +24,7 @@ export default function Activity(): React.ReactNode {
     queryKey: queryKeys.ACTIVITY(userId),
     queryFn: () => fetchActivity(userId),
     staleTime: 5 * 60 * 1000, // 5 min
+    throwOnError: true,
   });
 
   if (isPending || isFetching)
@@ -112,7 +114,6 @@ import {
   ValueType,
   NameType,
 } from "recharts/types/component/DefaultTooltipContent";
-import Formatter from "../../services/formatter";
 
 const BarsCustomTooltip = ({
   active,

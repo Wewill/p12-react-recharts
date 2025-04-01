@@ -15,6 +15,7 @@ export default function Activity(): React.ReactNode {
     queryKey: queryKeys.USER(userId),
     queryFn: () => fetchUser(userId),
     staleTime: 5 * 60 * 1000, // 5 min
+    throwOnError: true,
   });
 
   if (isPending || isFetching)

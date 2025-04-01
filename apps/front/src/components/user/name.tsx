@@ -12,9 +12,10 @@ const Name = () => {
     queryKey: queryKeys.USER(userId),
     queryFn: () => fetchUser(userId),
     staleTime: 5 * 60 * 1000, // 5 min
+    throwOnError: true,
   });
 
-  if (isPending) return "...";
+  if (isPending || isFetching) return "...";
 
   if (error) return "?";
 

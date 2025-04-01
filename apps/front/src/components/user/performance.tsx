@@ -4,6 +4,7 @@ import UserContext from "../../router/context";
 import { useQuery } from "@tanstack/react-query";
 import queryKeys from "../../constants/queryKeys";
 import { fetchPerformance } from "../../services/api";
+import Formatter from "../../services/formatter";
 
 import {
   Radar,
@@ -22,6 +23,7 @@ export default function Performance(): React.ReactNode {
     queryKey: queryKeys.PERFORMANCE(userId),
     queryFn: () => fetchPerformance(userId),
     staleTime: 5 * 60 * 1000, // 5 min
+    throwOnError: true,
   });
 
   if (isPending || isFetching)
@@ -85,7 +87,6 @@ import {
   ValueType,
   NameType,
 } from "recharts/types/component/DefaultTooltipContent";
-import Formatter from "../../services/formatter";
 
 const RadarCustomTooltip = ({
   active,
