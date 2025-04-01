@@ -20,23 +20,32 @@ export default function Activity(): React.ReactNode {
   const { userId } = params;
 
   const { isPending, error, data, isFetching } = useQuery({
-    queryKey: [queryKeys.ACTIVITY, userId],
+    queryKey: queryKeys.ACTIVITY(userId),
     queryFn: () => fetchActivity(userId),
     staleTime: 5 * 60 * 1000, // 5 min
   });
 
-  if (isPending) return "...";
+  if (isPending || isFetching)
+    return (
+      <div className="rounded-md bg-stone-50 relative h-[275px] xl:h-[360px] flex items-center justify-center">
+        <p className="text-stone-200 text-xs">Chargement...</p>
+      </div>
+    );
 
-  if (error) return "An error has occurred: " + error.message;
+  if (error)
+    return (
+      <div className="rounded-md bg-stone-50 relative h-[275px] xl:h-[360px] flex items-center justify-center">
+        <p className="text-stone-200 text-xs">
+          Oups, il y a une erreur : <em>{error.message}</em>
+        </p>
+      </div>
+    );
 
   // Format data for recharts
   const formattedData = Formatter.formatActivity(data);
 
   return (
     <>
-      {isFetching ? "..." : ""}
-      {isPending ? "isPending..." : ""}
-      {error ? "Error : " + error : ""}
       <div className="rounded-md bg-stone-50 relative h-[275px] xl:h-[360px]">
         <div className="absolute top-0 left-0 p-6 font-semibold flex justify-between w-full">
           <span className="flex-1">Activité quotidienne</span>

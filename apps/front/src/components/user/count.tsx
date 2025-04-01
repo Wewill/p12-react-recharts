@@ -39,14 +39,26 @@ const Count = ({ type, variant }: CountProps) => {
   const { userId } = params;
 
   const { isPending, error, data, isFetching } = useQuery({
-    queryKey: [queryKeys.USER, userId],
+    queryKey: queryKeys.USER(userId),
     queryFn: () => fetchUser(userId),
     staleTime: 5 * 60 * 1000, // 5 min
   });
 
-  if (isPending) return "...";
+  if (isPending || isFetching)
+    return (
+      <div className="rounded-md bg-stone-50 relative h-[133px] xl:h-[157px] mb-2 xl:mb-4 flex items-center justify-center">
+        <p className="text-stone-200 text-xs">Chargement...</p>
+      </div>
+    );
 
-  if (error) return "An error has occurred: " + error.message;
+  if (error)
+    return (
+      <div className="rounded-md bg-stone-50 relative h-[133px] xl:h-[157px] mb-2 xl:mb-4 flex items-center justify-center">
+        <p className="text-stone-200 text-xs">
+          Oups, il y a une erreur : <em>{error.message}</em>
+        </p>
+      </div>
+    );
 
   return (
     <>
@@ -63,7 +75,6 @@ const Count = ({ type, variant }: CountProps) => {
             <h4 className="font-bold text-2xl">
               {data.data.keyData[type]}
               {keyDataTypes[type].suffix}
-              <span>{isFetching ? "..." : ""}</span>
             </h4>
             <p className="text-stone-500 font-medium">
               {keyDataTypes[type].label}

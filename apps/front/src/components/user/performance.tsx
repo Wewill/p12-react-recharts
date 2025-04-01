@@ -19,24 +19,32 @@ export default function Performance(): React.ReactNode {
   const { userId } = params;
 
   const { isPending, error, data, isFetching } = useQuery({
-    queryKey: [queryKeys.PERFORMANCE, userId],
+    queryKey: queryKeys.PERFORMANCE(userId),
     queryFn: () => fetchPerformance(userId),
     staleTime: 5 * 60 * 1000, // 5 min
   });
 
-  if (isPending) return "...";
+  if (isPending || isFetching)
+    return (
+      <div className="rounded-md bg-stone-50 relative h-[275px] xl:h-[300px] flex items-center justify-center">
+        <p className="text-stone-200 text-xs">Chargement...</p>
+      </div>
+    );
 
-  if (error) return "An error has occurred: " + error.message;
+  if (error)
+    return (
+      <div className="rounded-md bg-stone-50 relative h-[275px] xl:h-[300px] flex items-center justify-center">
+        <p className="text-stone-200 text-xs">
+          Oups, il y a une erreur : <em>{error.message}</em>
+        </p>
+      </div>
+    );
 
   // Format data for recharts
   const formattedData = Formatter.formatPerformance(data);
 
   return (
     <>
-      {isFetching ? "..." : ""}
-      {isPending ? "isPending..." : ""}
-      {error ? "Error : " + error : ""}
-
       <div className="rounded-md bg-content relative p-2 h-[275px] xl:h-[300px]">
         <div className="absolute top-0 left-0 p-6 font-semibold text-white hidden">
           Performance

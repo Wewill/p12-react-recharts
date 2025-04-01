@@ -9,21 +9,18 @@ const Name = () => {
   const { userId } = params;
 
   const { isPending, error, data, isFetching } = useQuery({
-    queryKey: [queryKeys.USER, userId],
+    queryKey: queryKeys.USER(userId),
     queryFn: () => fetchUser(userId),
     staleTime: 5 * 60 * 1000, // 5 min
   });
 
   if (isPending) return "...";
 
-  if (error) return "An error has occurred: " + error.message;
+  if (error) return "?";
 
   return (
     <>
-      <span className="text-red-500">
-        {data.data.userInfos.firstName}
-        <span>{isFetching ? "..." : ""}</span>
-      </span>
+      <span className="text-red-500">{data.data.userInfos.firstName}</span>
     </>
   );
 };

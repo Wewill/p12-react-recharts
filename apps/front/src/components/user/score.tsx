@@ -17,16 +17,23 @@ export default function Activity(): React.ReactNode {
     staleTime: 5 * 60 * 1000, // 5 min
   });
 
-  if (isPending) return "...";
+  if (isPending || isFetching)
+    return (
+      <div className="rounded-md bg-stone-50 relative h-[275px] xl:h-[300px] flex items-center justify-center">
+        <p className="text-stone-200 text-xs">Chargement...</p>
+      </div>
+    );
 
-  if (error) return "An error has occurred: " + error.message;
-
+  if (error)
+    return (
+      <div className="rounded-md bg-stone-50 relative h-[275px] xl:h-[300px] flex items-center justify-center">
+        <p className="text-stone-200 text-xs">
+          Oups, il y a une erreur : <em>{error.message}</em>
+        </p>
+      </div>
+    );
   return (
     <>
-      {isFetching ? "..." : ""}
-      {isPending ? "isPending..." : ""}
-      {error ? "Error : " + error : ""}
-
       <div className="bg-stone-50 p-2 rounded-md relative h-[275px] xl:h-[300px]">
         <div className="absolute top-0 left-0 p-6 font-semibold">Score</div>
         <ResponsiveContainer>
